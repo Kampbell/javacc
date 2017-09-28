@@ -1,4 +1,5 @@
-\#pragma once
+\#ifndef JAVACC_MULTINODE_H
+\#define JAVACC_MULTINODE_H
 
 \#include "JavaCC.h"
 \#include "SimpleNode.h"
@@ -21,3 +22,4 @@ public:
 #fi
 };
 
+\#endif

@@ -1,4 +1,5 @@
-\#pragma once
+\#ifndef JAVACC_ERRORHANDLER_H
+\#define JAVACC_ERRORHANDLER_H
 
 \#include <stdio.h>
 \#include <string>
@@ -79,4 +80,4 @@ JJSimpleString addUnicodeEscapes(const JJString& str);
 ${NAMESPACE_CLOSE}
 #fi
 
-
+\#endif

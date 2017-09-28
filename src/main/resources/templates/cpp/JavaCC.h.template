@@ -1,4 +1,5 @@
-\#pragma once
+\#ifndef JAVACC_JAVACC_H
+\#define JAVACC_JAVACC_H
 
 \#include <string>
 \#include <memory>
@@ -54,4 +55,6 @@ struct JJExit
     ~JJExit(){f();}
     T f;
 };
+
+\#endif
 
