@@ -1,6 +1,5 @@
-\#ifndef JAVACC_TOKENMGRERROR_H
-\#define JAVACC_TOKENMGRERROR_H
-
+\#ifndef TOKENMGRERROR_H
+\#define TOKENMGRERROR_H
 \#include "JavaCC.h"
 
 
@@ -88,5 +87,4 @@ public:
 #if NAMESPACE
 ${NAMESPACE_CLOSE}
 #fi
-
 \#endif

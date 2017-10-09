@@ -1,6 +1,5 @@
-\#ifndef JAVACC_ERRORHANDLER_H
-\#define JAVACC_ERRORHANDLER_H
-
+\#ifndef ERRORHANDLER_H
+\#define ERRORHANDLER_H
 \#include <stdio.h>
 \#include <string>
 \#include "JavaCC.h"

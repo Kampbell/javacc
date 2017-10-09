@@ -1,6 +1,5 @@
-\#ifndef JAVACC_MULTINODE_H
-\#define JAVACC_MULTINODE_H
-
+\#ifndef ${NODE_TYPE}_H
+\#define ${NODE_TYPE}_H
 \#include "JavaCC.h"
 \#include "SimpleNode.h"
 
@@ -21,5 +20,4 @@ public:
     virtual ${VISITOR_RETURN_TYPE} jjtAccept(${PARSER_NAME}Visitor visitor, ${VISITOR_DATA_TYPE:-Object} data);
 #fi
 };
-
 \#endif

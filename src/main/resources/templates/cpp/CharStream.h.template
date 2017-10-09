@@ -1,6 +1,5 @@
-\#ifndef JAVACC_CHARSTREAM_H
-\#define JAVACC_CHARSTREAM_H
-
+\#ifndef CHARSTREAM_H
+\#define CHARSTREAM_H
 \#include "JavaCC.h"
 
 \#ifndef INITIAL_BUFFER_SIZE
@@ -29,8 +28,8 @@ namespace ${NAMESPACE_OPEN}
 
 class CharStream {
 public:
-  void setTabSize(int i) { tabSize = i; }
-  int  getTabSize(int i) { return tabSize; }
+   void setTabSize(int i) { tabSize = i; }
+   int  getTabSize(int i) { return tabSize; }
 
 #if KEEP_LINE_COLUMN
 private:
@@ -57,12 +56,12 @@ public:
   virtual int getBeginColumn()   { return getBufcolumn(tokenBegin); }
   virtual int getBeginLine()     { return getBufline(tokenBegin); }
 #else
-  virtual int getColumn()        { return -1; }
-  virtual int getLine()          { return -1; }
-  virtual int getEndColumn()     { return -1; }
-  virtual int getEndLine()       { return -1; }
-  virtual int getBeginColumn()   { return -1; }
-  virtual int getBeginLine()     { return -1; }
+  virtual int  getColumn()       { return -1; }
+  virtual int  getLine()         { return -1; }
+  virtual int  getEndColumn()    { return -1; }
+  virtual int  getEndLine()      { return -1; }
+  virtual int  getBeginColumn()  { return -1; }
+  virtual int  getBeginLine()    { return -1; }
 #fi
 
   virtual bool getTrackLineColumn()         { return trackLineColumn; }
@@ -242,9 +241,11 @@ public:
     ReInit(input_stream, 1, 1, INITIAL_BUFFER_SIZE);
   }
 
-  virtual void ReInit(const JJString& str, int startline, int startcolumn, int buffersize);
+  virtual void ReInit(const JJString& str, int startline,
+                      int startcolumn, int buffersize);
 
-  virtual void ReInit(const JJString& str, int startline, int startcolumn) {
+  virtual void ReInit(const JJString& str, int startline,
+                      int startcolumn) {
     ReInit(str, startline, startcolumn, INITIAL_BUFFER_SIZE);
   }
 
@@ -275,5 +276,4 @@ protected:
 #if NAMESPACE
 ${NAMESPACE_CLOSE}
 #fi
-
 \#endif

@@ -1,6 +1,5 @@
-\#ifndef JAVACC_JJTREESTATE_H
-\#define JAVACC_JJTREESTATE_H
-
+\#ifndef JJT${PARSER_NAME}State_H
+\#define JJT${PARSER_NAME}State_H
 \#include <set>
 \#include <vector>
 \#include "JavaCC.h"
@@ -61,7 +60,7 @@ public:
      children.  That number of nodes are popped from the stack and
      made the children of the definite node.  Then the definite node
      is pushed on to the stack. */
-  virtual void closeNodeScope(Node *n, int num);
+  virtual void closeNodeScope(Node *n, unsigned int num);
 
 
   /* A conditional node is constructed if its condition is true.  All
@@ -77,5 +76,4 @@ public:
 #if NAMESPACE
 ${NAMESPACE_CLOSE}
 #fi
-
 \#endif

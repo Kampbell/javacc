@@ -53,7 +53,8 @@ public class CodeGenerator {
     if (!isJavaLanguage()) {
       String incfilePath = fileName.replace(".cc", ".h");
       String incfileName = new File(incfilePath).getName();
-      includeBuffer.insert(0, "#pragma once\n");
+      includeBuffer.insert(0, "#define " + incfileName.replace('.', '_').toUpperCase() + "\n");
+      includeBuffer.insert(0, "#ifndef " + incfileName.replace('.', '_').toUpperCase() + "\n");
 
       // dump the statics into the main file with the code.
       mainBuffer.insert(0, staticsBuffer);
@@ -72,6 +73,7 @@ public class CodeGenerator {
     	  mainBuffer.insert(0, "#include \"" + cu_name + ".h\"\n");
       mainBuffer.insert(0, "#include \"TokenMgrError.h\"\n");
       mainBuffer.insert(0, "#include \"" + incfileName + "\"\n");
+      includeBuffer.append("#endif\n");
       saveOutput(incfilePath, includeBuffer);
     }
 
@@ -329,36 +331,29 @@ public class CodeGenerator {
     generateMethodDefHeader(modsAndRetType, className, nameAndParams, null);
   }
 
-  public void generateMethodDefHeader(String qualifiedModsAndRetType, String className, String nameAndParams, String exceptions) {
+  public void generateMethodDefHeader(String modsAndRetType, String className, String nameAndParams, String exceptions) {
     // for C++, we generate the signature in the header file and body in main file
     if (isJavaLanguage()) {
-      genCode(qualifiedModsAndRetType + " " + nameAndParams);
+      genCode(modsAndRetType + " " + nameAndParams);
       if (exceptions != null) {
         genCode(" throws " + exceptions);
       }
       genCodeLine("");
     } else {
-      includeBuffer.append(qualifiedModsAndRetType + " " + nameAndParams);
+      includeBuffer.append(modsAndRetType + " " + nameAndParams);
       //if (exceptions != null)
         //includeBuffer.append(" throw(" + exceptions + ")");
       includeBuffer.append(";\n");
 
-      String modsAndRetType = null;
-      int i = qualifiedModsAndRetType.lastIndexOf(':');
+      int i = modsAndRetType.lastIndexOf(':');
       if (i >= 0)
-    	  modsAndRetType = qualifiedModsAndRetType.substring(i+1);
+        modsAndRetType = modsAndRetType.substring(i+1);
 
-      if (modsAndRetType != null) {
-    	  i = modsAndRetType.lastIndexOf("virtual");
-    	  if (i >= 0)
-    		  modsAndRetType = modsAndRetType.substring(i + "virtual".length());
-      }
-      if (qualifiedModsAndRetType != null) {
-    	  i = qualifiedModsAndRetType.lastIndexOf("virtual");
-    	  if (i >= 0)
-    		  qualifiedModsAndRetType = qualifiedModsAndRetType.substring(i + "virtual".length());
-      }
-      mainBuffer.append("\n" + qualifiedModsAndRetType + " " +
+      i = modsAndRetType.lastIndexOf("virtual");
+      if (i >= 0)
+        modsAndRetType = modsAndRetType.substring(i + "virtual".length());
+
+      mainBuffer.append("\n" + modsAndRetType + " " +
                            getClassQualifier(className) + nameAndParams);
       //if (exceptions != null)
         //mainBuffer.append(" throw( " + exceptions + ")");

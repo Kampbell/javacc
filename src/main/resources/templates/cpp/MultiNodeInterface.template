@@ -1,11 +1,13 @@
-\#pragma once
-
+\#ifndef ${NODE_TYPE}_H_
+\#define ${NODE_TYPE}_H_
 \#include "${NODE_CLASS:-SimpleNode}.h"
+
 
 #if NAMESPACE
 namespace ${NAMESPACE_OPEN}
 #fi
 class ${PARSER_NAME};
+
 
 class ${NODE_TYPE} : public ${NODE_CLASS:-SimpleNode} {
 public: 
@@ -22,3 +24,5 @@ public:
 #if NAMESPACE
 ${NAMESPACE_CLOSE}
 #fi
+
+\#endif
