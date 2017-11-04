@@ -187,14 +187,18 @@ public void start() throws MetaParseException {
     genCodeLine("  /** Constructor with user supplied TokenManager. */");
 
     switchToIncludeFile(); // TEMP
+    genCodeLine("  bool  keep = false; ");
     genCodeLine("  Token *head; ");
     genCodeLine("public: ");
-    generateMethodDefHeader(" ", cu_name, cu_name + "(TokenManager *tokenManager)");
+    generateMethodDefHeader(" ", cu_name, cu_name,
+    		new String[] {"TokenManager *tokenManager", "bool keep"}, 
+    		new String[] {"", "false"}, null );
     if (superClass != null)
     {
       genCodeLine(" : " + superClass + "()");
     }
     genCodeLine("{");
+    genCodeLine("    this->keep = keep;");    
     genCodeLine("    head = nullptr;");
     genCodeLine("    ReInit(tokenManager);");
     if (Options.getTokenManagerUsesParser())
@@ -206,7 +210,7 @@ public void start() throws MetaParseException {
     switchToMainFile();
     genCodeLine("" + cu_name + "::~" +cu_name + "()");
     genCodeLine("{");
-    genCodeLine("  clear();");
+    genCodeLine("  clear(keep);");
     genCodeLine("}");
     generateMethodDefHeader("void", cu_name, "ReInit(TokenManager* tokenManager)");
     genCodeLine("{");
@@ -251,12 +255,12 @@ public void start() throws MetaParseException {
     genCodeLine("  }");
     genCodeLine("");
     
-    generateMethodDefHeader("void", cu_name, "clear()");
+    generateMethodDefHeader("void", cu_name, "clear", new String[] {"bool keep"}, new String[] { "false" } );
     genCodeLine("{");
     genCodeLine("  //Since token manager was generate from outside,");
     genCodeLine("  //parser should not take care of deleting");
     genCodeLine("  //if (token_source) delete token_source;");
-    genCodeLine("  if (head) {");
+    genCodeLine("  if (!keep && head) {");
     genCodeLine("    Token *next, *t = head;");
     genCodeLine("    while (t) {");
     genCodeLine("      next = t->next;");
@@ -733,5 +737,51 @@ public void start() throws MetaParseException {
    {
       lookaheadNeeded = false;
    }
+   public void generateMethodDefHeader(String modsAndRetType, String cu_name, String className, String[] params, String[] defaults) {
+	    generateMethodDefHeader(modsAndRetType, cu_name, className, params, defaults, null);
+	  }
 
+   public void generateMethodDefHeader(String qualifiedModsAndRetType, String cu_name, String className, String[] params, String[] defaults, String exceptions) {
+	    // for C++, we generate the signature in the header file and body in main file
+	      includeBuffer.append(qualifiedModsAndRetType + " " + className + "(");
+	      for(int no = 0; no < params.length; ++no) {
+	    	  includeBuffer.append(params[no]);
+	    	  if (!defaults[no].isEmpty()) {
+	    		  includeBuffer.append(" = " + defaults[no]);
+	    	  }
+    		  if (no + 1 < params.length) 
+    			  includeBuffer.append(", ");
+	      }
+	      includeBuffer.append(")");
+	      //if (exceptions != null)
+	        //includeBuffer.append(" throw(" + exceptions + ")");
+	      includeBuffer.append(";\n");
+
+	      String modsAndRetType = null;
+	      int i = qualifiedModsAndRetType.lastIndexOf(':');
+	      if (i >= 0)
+	    	  modsAndRetType = qualifiedModsAndRetType.substring(i+1);
+
+	      if (modsAndRetType != null) {
+	    	  i = modsAndRetType.lastIndexOf("virtual");
+	    	  if (i >= 0)
+	    		  modsAndRetType = modsAndRetType.substring(i + "virtual".length());
+	      }
+	      if (qualifiedModsAndRetType != null) {
+	    	  i = qualifiedModsAndRetType.lastIndexOf("virtual");
+	    	  if (i >= 0)
+	    		  qualifiedModsAndRetType = qualifiedModsAndRetType.substring(i + "virtual".length());
+	      }
+	      mainBuffer.append("\n");
+	      mainBuffer.append(qualifiedModsAndRetType + " " + cu_name + "::" + className + "(");
+	      for(int no = 0; no < params.length; ++no) {
+	    	  mainBuffer.append(params[no]);
+    		  if (no + 1 < params.length) 
+    			  mainBuffer.append(", ");
+	      }
+	      mainBuffer.append(")");
+	      //if (exceptions != null)
+	        //mainBuffer.append(" throw( " + exceptions + ")");
+	      switchToMainFile();
+	  }
 }
