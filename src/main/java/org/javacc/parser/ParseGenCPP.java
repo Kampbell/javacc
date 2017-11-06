@@ -277,6 +277,15 @@ public void start() throws MetaParseException {
     genCodeLine("}");
     genCodeLine("");
 
+    generateMethodDefHeader("Token*", cu_name, "getTokens", new String[] {""}, new String[] { "" } );
+    genCodeLine("{");
+    genCodeLine(" return head;;");
+    if (Options.getDepthLimit() > 0) {
+      genCodeLine("  assert(jj_depth==0);");
+    }
+    genCodeLine("}");
+    genCodeLine("");
+
     if (!Options.getStackLimit().equals("")) {
       genCodeLine("");                                                          
       switchToIncludeFile();                                                    
