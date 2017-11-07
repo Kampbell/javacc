@@ -24,33 +24,27 @@ namespace ${NAMESPACE_OPEN}
    * No-argument constructor
    */
   Token::Token() :
-  	beginLine(0), beginColumn(0), endLine(0), endColumn(0)
+  	beginLine(0), beginColumn(0), endLine(0), endColumn(0), 
+  	kind(0), next(nullptr), specialToken(nullptr)
   {
-    this->next = nullptr;
-    this->specialToken = nullptr;
   }
 
   /**
    * Constructs a new token for the specified Image.
    */
   Token::Token(int kind) :
-  	beginLine(0), beginColumn(0), endLine(0), endColumn(0) 
+  	beginLine(0), beginColumn(0), endLine(0), endColumn(0), 
+  	kind(kind), next(nullptr), specialToken(nullptr)
   {
-    this->kind = kind;
-    this->next = nullptr;
-    this->specialToken = nullptr;
   }
 
   /**
    * Constructs a new token for the specified Image and Kind.
    */
-  Token::Token(int kind, const JJString& image)
-  	: beginLine(0), beginColumn(0), endLine(0), endColumn(0) 
+  Token::Token(int kind, const JJString& image) :
+    beginLine(0), beginColumn(0), endLine(0), endColumn(0), 
+  	kind(kind), image(image), next(nullptr), specialToken(nullptr)
   {
-    this->kind = kind;
-    this->image = image;
-    this->next = nullptr;
-    this->specialToken = nullptr;
   }
 
   /**
