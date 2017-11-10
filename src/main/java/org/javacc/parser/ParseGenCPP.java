@@ -328,7 +328,7 @@ public void start() throws MetaParseException {
       genCodeLine("    else jj_nt = jj_nt->next = token_source->getNextToken();");
     } else {
       genCodeLine("    Token *oldToken;");
-      genCodeLine("    if ((oldToken = token)->next != nullptr) token = token->next;");
+      genCodeLine("    if ((oldToken = token)->next != nullptr) token = token_source->getNextToken(token);");
       genCodeLine("    else token = token->next = token_source->getNextToken();");
       genCodeLine("    jj_ntk = -1;");
     }
