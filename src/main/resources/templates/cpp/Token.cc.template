@@ -87,7 +87,7 @@ namespace ${NAMESPACE_OPEN}
     return newToken(ofKind, JJString());
   }
 
-  const int& Token::kind() const 
+  const int Token::kind() const 
   { 
   	return _kind; 
   }
@@ -107,19 +107,19 @@ namespace ${NAMESPACE_OPEN}
   {
     return _specialToken;
   }
-  const int& Token::beginLine() const
+  const int Token::beginLine() const
   {
     return _beginLine;
   }
-  const int& Token::beginColumn() const
+  const int Token::beginColumn() const
   {
     return _beginColumn;
   }
-  const int& Token::endLine() const
+  const int Token::endLine() const
   {
     return _endLine;
   }
-  const int& Token::endColumn() const
+  const int Token::endColumn() const
   {
     return _endColumn;
   }
